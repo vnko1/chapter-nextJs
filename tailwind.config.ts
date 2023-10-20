@@ -90,7 +90,7 @@ const config: Config = {
         h5_lg: "20px",
       },
       fontFamily: {
-        poppins: ["Poppins"],
+        poppins: ["var(--font-poppins)"],
         montserrat: ["Montserrat"],
       },
     },
