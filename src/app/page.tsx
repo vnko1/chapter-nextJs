@@ -1,4 +1,4 @@
-import WelcomePage from "./WelcomePage/WelcomePage";
+import WelcomePage from "./welcomePage/WelcomePage";
 
 export default function Home() {
   return (
