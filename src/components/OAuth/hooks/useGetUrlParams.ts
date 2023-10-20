@@ -1,8 +1,10 @@
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 const useGetUrlParams = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
+  const router = useRouter();
+  console.log(router);
 
   const currentLocation = window.location.origin + pathname;
   const state = searchParams.get("state");

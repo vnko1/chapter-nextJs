@@ -1,11 +1,14 @@
 "use client";
 import { CookieValue } from "./cookies.type";
 
-export const getCookie = (key: string) =>
-  document.cookie
+export const getCookie = (key: string) => {
+  const res = document.cookie
     .split("; ")
     .find((item) => item.startsWith(`${key}=`))
     ?.split("=")[1];
+  if (res) return res;
+  return "";
+};
 
 export const setCookie = (
   cookieValue: CookieValue,
