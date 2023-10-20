@@ -1,3 +1,4 @@
+"use client";
 import { FC } from "react";
 import cn from "classnames";
 import { Formik, Form } from "formik";

@@ -1,14 +1,14 @@
 import { nanoid } from "@reduxjs/toolkit";
 
-import { uploadFilesApi } from "@/src/axios";
-import { hashingString } from "@/src/utils";
+import { uploadFilesApi } from "@/axios";
+import { hashingString } from "@/utils";
 import { FileUploadArgs, Params, UploadParams, Path } from "./Files.type";
 
 const {
   VITE_CLOUDINARY_CLOUD_NAME,
   VITE_CLOUDINARY_API_KEY,
   VITE_CLOUDINARY_API_SECRET,
-} = import.meta.env;
+} = process.env;
 
 class FilesService {
   private static cloudName = VITE_CLOUDINARY_CLOUD_NAME;

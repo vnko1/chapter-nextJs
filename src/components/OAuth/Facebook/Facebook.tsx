@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import FacebookLogin, {
   SuccessResponse,
   FailResponse,
@@ -9,15 +9,15 @@ import FacebookLogin, {
 import FacebookApi from "./FacebookApi";
 import { useGetUrlParams } from "../hooks";
 import { getUrlParams } from "../helpers";
-import { useAppDispatch } from "@/src/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { SocialsProps, OAuthVariant } from "../OAuth.type";
 import styles from "../OAuth.module.scss";
 
 import { Icon, IconEnum } from "../../Icon";
-import { UIbutton } from "@/src/components/Buttons";
+import { UIbutton } from "@/components/Buttons";
 
 const { VITE_BASE_OAUTH_STATE, VITE_FACEBOOK_APP_ID, VITE_FACEBOOK_STATE } =
-  import.meta.env;
+  process.env;
 
 const Facebook: FC<SocialsProps> = ({
   stateId,
@@ -31,14 +31,14 @@ const Facebook: FC<SocialsProps> = ({
   dataAutomation = "oAuthButton",
   className,
 }) => {
-  const { currentLocation, setSearchParams, error_message } = useGetUrlParams();
+  const { currentLocation, error_message, pathname } = useGetUrlParams();
   const [facebookErrorMessage, setFacebookErrorMessage] = useState<
     string | null
   >(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const navigate = useRouter();
 
   const [facebookCode, faceBookState] = getUrlParams(
     location.hash.slice(1),
@@ -52,7 +52,7 @@ const Facebook: FC<SocialsProps> = ({
   useEffect(() => {
     if (error_message) {
       setFacebookErrorMessage(error_message);
-      setSearchParams("");
+      navigate.replace(pathname);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error_message]);
@@ -66,12 +66,12 @@ const Facebook: FC<SocialsProps> = ({
     ) {
       new FacebookApi({
         token: facebookAuthCode,
-        setSearchParams,
         navigate,
         setIsLoading,
-        setAuthCode: setFacebookAuthCode,
         dispatch,
       });
+      navigate.replace(pathname);
+      setFacebookAuthCode("");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [faceBookState, facebookAuthCode, oAuthVariant, stateId]);

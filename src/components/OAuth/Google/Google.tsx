@@ -1,18 +1,19 @@
 import { FC, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useGoogleLogin } from "@react-oauth/google";
 
 import GoogleApi from "./GoogleApi";
 import { useGetUrlParams } from "../hooks";
-import { useAppDispatch } from "@/src/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { SocialsProps, OAuthVariant } from "../OAuth.type";
 import styles from "../OAuth.module.scss";
 
 import { UIbutton } from "../../Buttons";
-import { useNavigate } from "react-router-dom";
-import { Icon, IconEnum } from "../..";
+
+import { Icon, IconEnum } from "../../Icon";
 
 const { VITE_BASE_OAUTH_STATE, VITE_GOOGLE_STATE, VITE_GOOGLE_REDIRECT_URI } =
-  import.meta.env;
+  process.env;
 
 const Google: FC<SocialsProps> = ({
   stateId,
@@ -26,12 +27,11 @@ const Google: FC<SocialsProps> = ({
   dataAutomation = "oAuthButton",
   className,
 }) => {
-  const { state, code, currentLocation, setSearchParams } = useGetUrlParams();
+  const { state, code, currentLocation, pathname } = useGetUrlParams();
   const [googleAuthCode, setGoogleAuthCode] = useState(code);
   const [isLoading, setIsLoading] = useState(false);
-
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const navigate = useRouter();
 
   useEffect(() => {
     if (
@@ -43,12 +43,13 @@ const Google: FC<SocialsProps> = ({
       new GoogleApi({
         token: googleAuthCode,
         redirectUri: currentLocation,
-        setSearchParams,
         navigate,
         setIsLoading,
-        setAuthCode: setGoogleAuthCode,
         dispatch,
       });
+
+      setGoogleAuthCode("");
+      navigate.replace(pathname);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLocation, googleAuthCode, oAuthVariant, stateId, state]);

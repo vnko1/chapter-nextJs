@@ -1,8 +1,9 @@
+"use client";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IUserStore } from "../types/user";
 import { defaultUserState } from "../default-state/user";
-import { EndpointsEnum } from "@/src/axios/endpoints.types";
-import api from "@/src/axios/api";
+import { EndpointsEnum } from "@/axios/endpoints.types";
+import api from "@/axios/api";
 
 export interface IUserState {
   user: IUserStore;

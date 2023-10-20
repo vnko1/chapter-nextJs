@@ -1,10 +1,9 @@
 "use client";
-
 import { FC, useEffect } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { nanoid } from "@reduxjs/toolkit";
 
-import { getCookie } from "./helpers";
+import { getCookie, setCookie } from "@/utils";
 import { OAuthProps, OAuthVariant } from "./OAuth.type";
 
 import Twitter from "./Twitter/Twitter";
@@ -21,25 +20,25 @@ const OAuth: FC<OAuthProps> = (props) => {
   const stateId = getCookie("stateId")
     ? getCookie("stateId")
     : VITE_BASE_OAUTH_STATE;
-
+  console.log(VITE_BASE_OAUTH_STATE);
   useEffect(() => {
     if (!getCookie("stateId")) {
-      document.cookie = `stateId=${nanoid()}; path=/; max-age=${VITE_STATE_ID_COOKIE_LIFETIME};`;
+      setCookie({ stateId: nanoid() }, "/", VITE_STATE_ID_COOKIE_LIFETIME);
     }
   }, []);
 
-  if (props.oAuthVariant === OAuthVariant.GOOGLE)
-    return (
-      <GoogleOAuthProvider clientId={VITE_GOOGLE_CLIENT_ID}>
-        <Google stateId={stateId} {...props} />
-      </GoogleOAuthProvider>
-    );
+  // if (props.oAuthVariant === OAuthVariant.GOOGLE)
+  //   return (
+  //     <GoogleOAuthProvider clientId={VITE_GOOGLE_CLIENT_ID}>
+  //       <Google stateId={stateId as string} {...props} />
+  //     </GoogleOAuthProvider>
+  //   );
 
   if (props.oAuthVariant === OAuthVariant.FACEBOOK)
-    return <Facebook stateId={stateId} {...props} />;
+    return <Facebook stateId={stateId as string} {...props} />;
 
   if (props.oAuthVariant === OAuthVariant.TWITTER)
-    return <Twitter stateId={stateId} {...props} />;
+    return <Twitter stateId={stateId as string} {...props} />;
 };
 
 export default OAuth;

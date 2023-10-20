@@ -1,16 +1,16 @@
 import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 import TwitterApi from "./TwitterApi";
 import { useGetUrlParams } from "../hooks";
-import { useAppDispatch } from "@/src/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { SocialsProps, OAuthVariant } from "../OAuth.type";
 import styles from "../OAuth.module.scss";
 
 import { Icon, IconEnum } from "../../Icon";
-import { UIbutton } from "@/src/components/Buttons";
+import { UIbutton } from "@/components/Buttons";
 
-const { VITE_BASE_OAUTH_STATE, VITE_TWITTER_STATE } = import.meta.env;
+const { VITE_BASE_OAUTH_STATE, VITE_TWITTER_STATE } = process.env;
 
 const Twitter: FC<SocialsProps> = ({
   stateId,
@@ -23,11 +23,11 @@ const Twitter: FC<SocialsProps> = ({
   dataAutomation = "oAuthButton",
   className,
 }) => {
-  const { state, code, currentLocation, setSearchParams } = useGetUrlParams();
+  const { state, code, currentLocation, pathname } = useGetUrlParams();
   const [twitterAuthCode, setTwitterAuthCode] = useState(code);
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
+  const navigate = useRouter();
   const dispatch = useAppDispatch();
 
   const twitterRedirectUrl = TwitterApi.createRedirectUrl(
@@ -44,12 +44,13 @@ const Twitter: FC<SocialsProps> = ({
     ) {
       new TwitterApi({
         token: twitterAuthCode,
-        setSearchParams,
         navigate,
-        setAuthCode: setTwitterAuthCode,
         setIsLoading,
         dispatch,
       });
+
+      navigate.replace(pathname);
+      setTwitterAuthCode("");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, stateId, twitterAuthCode, oAuthVariant]);

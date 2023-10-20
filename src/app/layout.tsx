@@ -3,6 +3,8 @@ import { Poppins } from "next/font/google";
 
 import "/src/styles/index.scss";
 
+import { Providers } from "./_components";
+
 const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
@@ -14,14 +16,15 @@ export const metadata: Metadata = {
   title: "Chapter",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function RootLayout({ auth }: { auth: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        <Providers>{auth}</Providers>
+      </body>
     </html>
   );
 }
+export default RootLayout;
+
+// export default wrapper.withRedux(RootLayout);

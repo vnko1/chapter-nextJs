@@ -1,3 +1,4 @@
+"use client";
 import { FC, ChangeEvent } from "react";
 import Link from "next/link";
 import cn from "classnames";

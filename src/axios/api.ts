@@ -1,5 +1,5 @@
 import axios from "axios";
-import TokenService from "@/services/token";
+import { TokenService } from "@/services";
 import { getTokenFromLC } from "@/utils";
 
 const api = axios.create({
