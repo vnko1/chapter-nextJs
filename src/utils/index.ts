@@ -4,6 +4,7 @@ export {
   setDataToLS,
   getTokenFromLC,
   removeDataFromLS,
+  getDataFromLs,
 } from "./localStorage/localStorage";
 export { checkAccessToken } from "./checkAccessToken/checkAccessToken";
 export { getCookie, setCookie, deleteCookie } from "./cookies/cookies";

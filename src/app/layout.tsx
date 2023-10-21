@@ -16,15 +16,13 @@ export const metadata: Metadata = {
   title: "Chapter",
 };
 
-function RootLayout({ auth }: { auth: React.ReactNode }) {
+function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <Providers>{auth}</Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
 }
 export default RootLayout;
-
-// export default wrapper.withRedux(RootLayout);

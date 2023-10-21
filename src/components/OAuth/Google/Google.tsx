@@ -12,9 +12,6 @@ import { UIbutton } from "../../Buttons";
 
 import { Icon, IconEnum } from "../../Icon";
 
-const { VITE_BASE_OAUTH_STATE, VITE_GOOGLE_STATE, VITE_GOOGLE_REDIRECT_URI } =
-  process.env;
-
 const Google: FC<SocialsProps> = ({
   stateId,
   oAuthVariant,
@@ -37,8 +34,10 @@ const Google: FC<SocialsProps> = ({
     if (
       oAuthVariant === OAuthVariant.GOOGLE &&
       googleAuthCode &&
-      (state === VITE_GOOGLE_STATE + stateId ||
-        state === VITE_GOOGLE_STATE + VITE_BASE_OAUTH_STATE)
+      (state === process.env.NEXT_PUBLIC_GOOGLE_STATE + stateId ||
+        state ===
+          process.env.NEXT_PUBLIC_GOOGLE_STATE +
+            process.env.NEXT_PUBLIC_BASE_OAUTH_STATE)
     ) {
       new GoogleApi({
         token: googleAuthCode,
@@ -58,15 +57,17 @@ const Google: FC<SocialsProps> = ({
     flow: "auth-code",
     ux_mode: googlePopupMode ? "popup" : "redirect",
     redirect_uri: currentLocation,
-    state: VITE_GOOGLE_STATE + stateId,
+    state: process.env.NEXT_PUBLIC_GOOGLE_STATE + stateId,
     onSuccess: async (codeResponse) => {
       if (
-        codeResponse.state === VITE_GOOGLE_STATE + stateId ||
-        codeResponse.state === VITE_GOOGLE_STATE + VITE_BASE_OAUTH_STATE
+        codeResponse.state === process.env.NEXT_PUBLIC_GOOGLE_STATE + stateId ||
+        codeResponse.state ===
+          process.env.NEXT_PUBLIC_GOOGLE_STATE +
+            process.env.NEXT_PUBLIC_BASE_OAUTH_STATE
       ) {
         new GoogleApi({
           token: codeResponse.code,
-          redirectUri: VITE_GOOGLE_REDIRECT_URI,
+          redirectUri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI,
           navigate,
           setIsLoading,
           dispatch,

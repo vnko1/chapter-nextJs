@@ -4,16 +4,10 @@ import { uploadFilesApi } from "@/axios";
 import { hashingString } from "@/utils";
 import { FileUploadArgs, Params, UploadParams, Path } from "./Files.type";
 
-const {
-  VITE_CLOUDINARY_CLOUD_NAME,
-  VITE_CLOUDINARY_API_KEY,
-  VITE_CLOUDINARY_API_SECRET,
-} = process.env;
-
 class FilesService {
-  private static cloudName = VITE_CLOUDINARY_CLOUD_NAME;
-  private static apiKey = VITE_CLOUDINARY_API_KEY;
-  private static apiSecret = VITE_CLOUDINARY_API_SECRET;
+  private static cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  private static apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
+  private static apiSecret = process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET;
   private static formats = ["webp"];
 
   private static createSignature(params: Params) {

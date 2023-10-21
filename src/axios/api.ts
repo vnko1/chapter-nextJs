@@ -3,7 +3,7 @@ import { TokenService } from "@/services";
 import { getTokenFromLC } from "@/utils";
 
 const api = axios.create({
-  baseURL: process.env.VITE_API_BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   withCredentials: false,
   method: "get, post, put, delete, patch",
   headers: {

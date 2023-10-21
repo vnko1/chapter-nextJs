@@ -10,8 +10,6 @@ import styles from "../OAuth.module.scss";
 import { Icon, IconEnum } from "../../Icon";
 import { UIbutton } from "@/components/Buttons";
 
-const { VITE_BASE_OAUTH_STATE, VITE_TWITTER_STATE } = process.env;
-
 const Twitter: FC<SocialsProps> = ({
   stateId,
   oAuthVariant,
@@ -39,8 +37,10 @@ const Twitter: FC<SocialsProps> = ({
     if (
       oAuthVariant === OAuthVariant.TWITTER &&
       twitterAuthCode &&
-      (state === VITE_TWITTER_STATE + stateId ||
-        state === VITE_TWITTER_STATE + VITE_BASE_OAUTH_STATE)
+      (state === process.env.NEXT_PUBLIC_TWITTER_STATE + stateId ||
+        state ===
+          process.env.NEXT_PUBLIC_TWITTER_STATE +
+            process.env.NEXT_PUBLIC_BASE_OAUTH_STATE)
     ) {
       new TwitterApi({
         token: twitterAuthCode,

@@ -6,6 +6,8 @@ export const getTokenFromLC = (): string | null => {
 export const getExpiresTokenValueFromLS = (): string | null =>
   localStorage.getItem("tokenExpires");
 
+export const getDataFromLs = (key: string) => localStorage.getItem(key);
+
 export const setDataToLS = (data: LocaleStorageArgs) => {
   Object.keys(data).map((i) => {
     if (data[i as keyof LocaleStorageArgs]) {

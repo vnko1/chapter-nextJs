@@ -16,9 +16,6 @@ import styles from "../OAuth.module.scss";
 import { Icon, IconEnum } from "../../Icon";
 import { UIbutton } from "@/components/Buttons";
 
-const { VITE_BASE_OAUTH_STATE, VITE_FACEBOOK_APP_ID, VITE_FACEBOOK_STATE } =
-  process.env;
-
 const Facebook: FC<SocialsProps> = ({
   stateId,
   oAuthVariant,
@@ -61,8 +58,10 @@ const Facebook: FC<SocialsProps> = ({
     if (
       oAuthVariant === OAuthVariant.FACEBOOK &&
       facebookAuthCode &&
-      (faceBookState === VITE_FACEBOOK_STATE + stateId ||
-        faceBookState === VITE_FACEBOOK_STATE + VITE_BASE_OAUTH_STATE)
+      (faceBookState === process.env.NEXT_PUBLIC_FACEBOOK_STATE + stateId ||
+        faceBookState ===
+          process.env.NEXT_PUBLIC_FACEBOOK_STATE +
+            process.env.NEXT_PUBLIC_BASE_OAUTH_STATE)
     ) {
       new FacebookApi({
         token: facebookAuthCode,
@@ -94,7 +93,7 @@ const Facebook: FC<SocialsProps> = ({
   };
   return (
     <FacebookLogin
-      appId={VITE_FACEBOOK_APP_ID}
+      appId={process.env.NEXT_PUBLIC_FACEBOOK_APP_ID}
       autoLoad={false}
       useRedirect={!facebookPopupMode}
       fields="name,email,picture"
@@ -102,7 +101,7 @@ const Facebook: FC<SocialsProps> = ({
       onFail={onFacebookOauthFail}
       onProfileSuccess={onFacebookOauthProfileSuccess}
       dialogParams={{
-        state: VITE_FACEBOOK_STATE + stateId,
+        state: process.env.NEXT_PUBLIC_FACEBOOK_STATE + stateId,
         redirect_uri: currentLocation,
         response_type: "token",
       }}
